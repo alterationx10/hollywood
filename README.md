@@ -6,6 +6,8 @@ Built for local LLMs, tested primarily with llama-server and gpt-oss. Works with
 
 ## Setup
 
+Note: I'm porting this out of another library, and making sure all tests are working before publishing a version.
+
 Add to your `build.sbt` or Mill configuration:
 
 ```scala
