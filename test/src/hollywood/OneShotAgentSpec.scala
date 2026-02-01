@@ -1,12 +1,17 @@
 package hollywood
 
 import testkit.fixtures.LlamaServerFixture
+import veil.Veil
 
 class OneShotAgentSpec extends LlamaServerFixture {
+  
+  override val completionModel: String =
+    Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
 
   test("OneShotAgent should respond to basic chat messages") {
     val agent = OneShotAgent(
-      systemPrompt = "You are a helpful assistant. Respond concisely."
+      systemPrompt = "You are a helpful assistant. Respond concisely.",
+      model = completionModel
     )
 
     val response = agent.chat("What is 2+2?")
@@ -21,11 +26,14 @@ class OneShotAgentSpec extends LlamaServerFixture {
       taskName = "Text Summarization",
       taskDescription = "Summarize the given text in one sentence.",
       inputFormat = Some("Raw text"),
-      outputFormat = Some("One sentence summary")
+      outputFormat = Some("One sentence summary"),
+      model = completionModel
     )
 
-    val text    = "Artificial intelligence has made tremendous progress. " +
-      "AI systems are becoming increasingly capable in many domains."
+    val text = "Artificial intelligence has made tremendous progress. " +
+      "AI systems are becoming increasingly capable in many domains. " +
+      "Code generation and documentation is a great example."
+
     val summary = summarizer.chat(text)
 
     assert(summary.nonEmpty)
@@ -34,7 +42,8 @@ class OneShotAgentSpec extends LlamaServerFixture {
 
   test("OneShotAgent.execute should support variable substitution") {
     val agent = OneShotAgent(
-      systemPrompt = "You are a greeting generator."
+      systemPrompt = "You are a greeting generator.",
+      model = completionModel
     )
 
     val template = "Generate a {style} greeting for {name}."

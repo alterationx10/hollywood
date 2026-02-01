@@ -10,7 +10,7 @@ class ConversationalAgent(
     completionClient: ChatCompletionClient = ChatCompletionClient(),
     toolRegistry: Option[ToolRegistry] = None,
     maxTurns: Int = 50,
-    model: String = "gpt-oss",
+    model: String,
     onTurn: Option[(Int, ChatMessage) => Unit] = None,
     conversationState: ConversationState = new InMemoryState()
 ) extends Agent {

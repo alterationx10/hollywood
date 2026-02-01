@@ -28,7 +28,7 @@ class OneShotAgent(
     completionClient: ChatCompletionClient = ChatCompletionClient(),
     toolRegistry: Option[ToolRegistry] = None,
     maxTurns: Int = 10,
-    model: String = "gpt-oss",
+    model: String,
     onTurn: Option[(Int, ChatMessage) => Unit] = None
 ) extends Agent {
 
@@ -110,7 +110,7 @@ object OneShotAgent {
       completionClient: ChatCompletionClient = ChatCompletionClient(),
       toolRegistry: Option[ToolRegistry] = None,
       maxTurns: Int = 10,
-      model: String = "gpt-oss"
+      model: String
   ): OneShotAgent = {
     val systemPrompt = buildTaskSystemPrompt(
       taskName,

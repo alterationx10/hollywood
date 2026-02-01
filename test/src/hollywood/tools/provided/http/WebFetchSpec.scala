@@ -4,6 +4,7 @@ import hollywood.*
 import hollywood.tools.ToolRegistry
 import testkit.fixtures.LlamaServerFixture
 import munit.FunSuite
+import veil.Veil
 
 class WebFetchSpec extends FunSuite {
 
@@ -25,13 +26,17 @@ class WebFetchSpec extends FunSuite {
 
 class WebFetchAgentSpec extends LlamaServerFixture {
 
+  override val completionModel: String =
+    Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
+  
   test("OneShotAgent should use WebFetch to fetch webpage content") {
     val toolRegistry = ToolRegistry().register[WebFetch]
 
     val agent = new OneShotAgent(
       systemPrompt =
         "You are a helpful assistant that can fetch web pages. Use the available tools to help answer questions.",
-      toolRegistry = Some(toolRegistry)
+      toolRegistry = Some(toolRegistry),
+      model = completionModel
     )
 
     val response =

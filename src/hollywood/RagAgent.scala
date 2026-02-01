@@ -14,7 +14,7 @@ class RagAgent(
     toolRegistry: Option[ToolRegistry] = None,
     vectorStore: VectorStore,
     maxTurns: Int = 50,
-    model: String = "gpt-oss",
+    model: String,
     onTurn: Option[(Int, ChatMessage) => Unit] = None,
     topK: Int = 5
 ) extends Agent {

@@ -3,8 +3,12 @@ package hollywood.tools.provided.searxng
 import hollywood.*
 import hollywood.tools.ToolRegistry
 import testkit.fixtures.LlamaServerFixture
+import veil.Veil
 
 class SearXNGAgentSpec extends LlamaServerFixture {
+
+  override val completionModel: String =
+    Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
 
   test("OneShotAgent using SearXNGTool returns search results") {
     val toolRegistry = ToolRegistry()
@@ -13,7 +17,8 @@ class SearXNGAgentSpec extends LlamaServerFixture {
     val agent = OneShotAgent(
       systemPrompt =
         "You are a search assistant. Use the search tool to search the web.",
-      toolRegistry = Some(toolRegistry)
+      toolRegistry = Some(toolRegistry),
+      model = completionModel
     )
 
     val response = agent.chat(

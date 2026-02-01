@@ -9,8 +9,12 @@ import hollywood.rag.{
 }
 import hollywood.clients.embeddings.EmbeddingClient
 import testkit.fixtures.LlamaServerFixture
+import veil.Veil
 
 class RagAgentSpec extends LlamaServerFixture {
+
+  override val completionModel: String =
+    Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
 
   test("RagAgent should answer questions using indexed documents") {
     val vectorStore     = new InMemoryVectorStore()
@@ -22,7 +26,7 @@ class RagAgentSpec extends LlamaServerFixture {
       vectorStore = vectorStore,
       topK = 3,
       maxTurns = 10,
-      model = "gpt-oss-20b"
+      model = completionModel
     )
 
     // Index documents
@@ -53,14 +57,15 @@ class RagAgentSpec extends LlamaServerFixture {
 
   test("RagAgent should retrieve relevant context for queries") {
     val vectorStore     = new InMemoryVectorStore()
-    val embeddingClient = new EmbeddingClient()
+    val embeddingClient = new EmbeddingClient(embeddingModel = embeddingModel)
     val documentIndexer = new DocumentIndexer(embeddingClient, vectorStore)
 
     val ragAgent = new RagAgent(
       embeddingClient = embeddingClient,
       vectorStore = vectorStore,
       topK = 2,
-      maxTurns = 10
+      maxTurns = 10,
+      model = completionModel
     )
 
     // Index documents with distinct topics
@@ -87,7 +92,7 @@ class RagAgentSpec extends LlamaServerFixture {
 
   test("DocumentIndexer should successfully index multiple documents") {
     val vectorStore     = new InMemoryVectorStore()
-    val embeddingClient = new EmbeddingClient()
+    val embeddingClient = new EmbeddingClient(embeddingModel = embeddingModel)
     val documentIndexer = new DocumentIndexer(embeddingClient, vectorStore)
 
     val documents = List(
@@ -115,7 +120,7 @@ class RagAgentSpec extends LlamaServerFixture {
 
   test("InMemoryVectorStore should support search operations") {
     val vectorStore     = new InMemoryVectorStore()
-    val embeddingClient = new EmbeddingClient()
+    val embeddingClient = new EmbeddingClient(embeddingModel = embeddingModel)
     val documentIndexer = new DocumentIndexer(embeddingClient, vectorStore)
 
     val documents = List(
@@ -139,13 +144,14 @@ class RagAgentSpec extends LlamaServerFixture {
     "DocumentChunker should integrate with RAG pipeline for long documents"
   ) {
     val vectorStore     = new InMemoryVectorStore()
-    val embeddingClient = new EmbeddingClient()
+    val embeddingClient = new EmbeddingClient(embeddingModel = embeddingModel)
 
     val ragAgent = new RagAgent(
       embeddingClient = embeddingClient,
       vectorStore = vectorStore,
       topK = 3,
-      maxTurns = 10
+      maxTurns = 10,
+      model = completionModel
     )
 
     // Long document about different topics

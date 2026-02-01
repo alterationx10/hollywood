@@ -1,12 +1,12 @@
 package hollywood.clients.embeddings
 
 import veil.Veil
-import upickle.default.{write, read}
+import upickle.default.{read, write}
 
 class EmbeddingClient(
     embeddingHandler: EmbeddingsRequest => EmbeddingsResponse =
       EmbeddingClient.defaultEmbeddingHandler,
-    embeddingModel: String = "gpt-oss"
+    embeddingModel: String
 ) {
 
   /** Get embedding for a text */

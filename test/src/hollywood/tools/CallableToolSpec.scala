@@ -1,11 +1,15 @@
 package hollywood.tools
 
 import hollywood.*
-import hollywood.tools.schema.{Tool, Param}
+import hollywood.tools.schema.{Param, Tool}
 import testkit.fixtures.LlamaServerFixture
 import upickle.default.ReadWriter
+import veil.Veil
 
 class CallableToolSpec extends LlamaServerFixture {
+  
+  override val completionModel: String =
+    Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
 
   test("Agent using a simple tool") {
 
@@ -27,7 +31,8 @@ class CallableToolSpec extends LlamaServerFixture {
     val agent = OneShotAgent(
       systemPrompt =
         "You are a helpful assistant with access to a calculator tool. Use it when asked to perform calculations.",
-      toolRegistry = Some(toolRegistry)
+      toolRegistry = Some(toolRegistry),
+      model = completionModel
     )
 
     // Test the agent using the tool
@@ -66,7 +71,8 @@ class CallableToolSpec extends LlamaServerFixture {
     val agent = OneShotAgent(
       systemPrompt =
         "You are a math assistant with tools for addition and multiplication.",
-      toolRegistry = Some(toolRegistry)
+      toolRegistry = Some(toolRegistry),
+      model = completionModel
     )
 
     // Test the agent using multiple tools
@@ -79,7 +85,8 @@ class CallableToolSpec extends LlamaServerFixture {
     // Create a specialized calculator agent
     val calculatorAgent = OneShotAgent(
       systemPrompt =
-        "You are a calculator. Perform arithmetic operations accurately."
+        "You are a calculator. Perform arithmetic operations accurately.",
+      model = completionModel
     )
 
     // Derive a tool from the calculator agent
@@ -97,7 +104,8 @@ class CallableToolSpec extends LlamaServerFixture {
     val mainAgent = OneShotAgent(
       systemPrompt =
         "You are an assistant. When asked to do math, use the calculator tool.",
-      toolRegistry = Some(toolRegistry)
+      toolRegistry = Some(toolRegistry),
+      model = completionModel
     )
 
     // Test agent-to-agent communication
