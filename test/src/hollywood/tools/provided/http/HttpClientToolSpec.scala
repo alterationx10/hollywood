@@ -1,27 +1,27 @@
 package hollywood.tools.provided.http
 
 import hollywood.tools.ToolRegistry
-import testkit.fixtures.HttpBinContainerSuite
+import testkit.fixtures.HttpBinSuite
 import munit.FunSuite
 
-class HttpClientToolSpec extends HttpBinContainerSuite {
+class HttpClientToolSpec extends HttpBinSuite {
 
   test("HttpClientTool should execute a GET request") {
-    val tool   = HttpClientTool(url = s"${getContainerUrl}/get", method = "GET")
+    val tool   = HttpClientTool(url = s"${httpBinUrl}/get", method = "GET")
     val result = tool.execute()
     println(result)
     assert(result.isSuccess, "Request should succeed")
     result.foreach { body =>
       assert(
-        body.contains(s"$getContainerUrl"),
-        s"Response should contain $getContainerUrl"
+        body.contains(s"$httpBinUrl"),
+        s"Response should contain $httpBinUrl"
       )
     }
   }
 
   test("HttpClientTool should execute a POST request with body") {
     val tool   = HttpClientTool(
-      url = s"${getContainerUrl}/post",
+      url = s"${httpBinUrl}/post",
       method = "POST",
       body = Some("test data")
     )
@@ -35,7 +35,7 @@ class HttpClientToolSpec extends HttpBinContainerSuite {
   test("HttpClientTool should include custom headers") {
     val headers = """{"X-Custom-Header": "test-value"}"""
     val tool    = HttpClientTool(
-      url = s"${getContainerUrl}/headers",
+      url = s"${httpBinUrl}/headers",
       method = "GET",
       headers = Some(headers)
     )
@@ -51,7 +51,7 @@ class HttpClientToolSpec extends HttpBinContainerSuite {
 
   test("HttpClientTool should execute a PUT request") {
     val tool   = HttpClientTool(
-      url = s"${getContainerUrl}/put",
+      url = s"${httpBinUrl}/put",
       method = "PUT",
       body = Some("""{"key": "value"}""")
     )
@@ -61,7 +61,7 @@ class HttpClientToolSpec extends HttpBinContainerSuite {
 
   test("HttpClientTool should execute a DELETE request") {
     val tool   = HttpClientTool(
-      url = s"${getContainerUrl}/delete",
+      url = s"${httpBinUrl}/delete",
       method = "DELETE"
     )
     val result = tool.execute()
@@ -87,7 +87,7 @@ class HttpClientToolSpec extends HttpBinContainerSuite {
     registry.register[HttpClientTool]
 
     val args = ujson.Obj(
-      "url"    -> ujson.Str(s"${getContainerUrl}/get"),
+      "url"    -> ujson.Str(s"${httpBinUrl}/get"),
       "method" -> ujson.Str("GET")
     )
 
@@ -99,15 +99,15 @@ class HttpClientToolSpec extends HttpBinContainerSuite {
     result.foreach { v =>
       val value = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
       assert(
-        value.contains(s"$getContainerUrl"),
-        s"Result should contain $getContainerUrl"
+        value.contains(s"$httpBinUrl"),
+        s"Result should contain $httpBinUrl"
       )
     }
   }
 
   test("HttpClientTool should default to GET when method is unknown") {
     val tool   = HttpClientTool(
-      url = s"${getContainerUrl}/get",
+      url = s"${httpBinUrl}/get",
       method = "INVALID"
     )
     val result = tool.execute()
