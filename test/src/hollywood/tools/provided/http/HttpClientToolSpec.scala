@@ -75,7 +75,7 @@ class HttpClientToolSpec extends HttpBinSuite {
     val tools = registry.getRegisteredToolNames
     assert(
       tools.contains(
-        "dev.alteration.branch.hollywood.tools.provided.http.HttpClientTool"
+        "hollywood.tools.provided.http.HttpClientTool"
       ),
       s"Registry should contain HttpClientTool. Got: $tools"
     )
