@@ -101,7 +101,7 @@ case class JsonQueryTool(
                   arr.flatMap(item => navigatePath(item, after))
                 case None        => arr
               }
-              ujson.write(Arr(results))
+              ujson.write(Arr(results), indent = 0)
             case None      =>
               throw new IllegalArgumentException(
                 "Wildcard path requires an array"
@@ -109,12 +109,12 @@ case class JsonQueryTool(
           }
         } else {
           navigatePath(json, p) match {
-            case Some(value) => ujson.write(value)
+            case Some(value) => ujson.write(value, indent = 0)
             case None        =>
               throw new IllegalArgumentException(s"Path not found: $p")
           }
         }
-      case None    => ujson.write(json)
+      case None    => ujson.write(json, indent = 0)
     }
   }
 

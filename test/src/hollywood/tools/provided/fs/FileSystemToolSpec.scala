@@ -181,7 +181,7 @@ class FileSystemToolSpec extends FileFixtureSuite {
     )
     assert(result.isDefined, "Execution should return a result")
     result.foreach { v =>
-      val value = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+      val value = v.str
       assert(value.contains("Yes"), "Should confirm file exists")
     }
   }

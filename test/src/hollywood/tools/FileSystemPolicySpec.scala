@@ -24,7 +24,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val content = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val content = v.str
         assertEquals(content, "Hello", "Should read file content")
       }
       case _ => fail("Expected successful read")
@@ -46,7 +46,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("outside sandbox"),
           s"Should block access outside sandbox. Got: $error"
@@ -72,7 +72,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("read-only") || error.contains("disabled"),
           s"Should block write in read-only mode. Got: $error"
@@ -100,7 +100,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("blocked pattern"),
           s"Should block .env file. Got: $error"
@@ -130,7 +130,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("exceeds maximum"),
           s"Should block large file write. Got: $error"
@@ -185,7 +185,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val content = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val content = v.str
         assertEquals(
           content,
           "Read-only test",
@@ -213,7 +213,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("outside sandbox"),
           s"Should block path traversal attempt. Got: $error"
@@ -253,7 +253,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("blocked pattern"),
           s"Should block .ENV (uppercase) due to case-insensitive check. Got: $error"
@@ -285,7 +285,7 @@ class FileSystemPolicySpec extends FileFixtureSuite {
 
     result match {
       case Some(v) => {
-        val error = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val error = v.str
         assert(
           error.contains("blocked pattern"),
           s"Should block file with 'password' in path. Got: $error"

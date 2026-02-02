@@ -219,7 +219,7 @@ class RegexToolSpec extends FunSuite {
     val tools = registry.getRegisteredToolNames
     assert(
       tools.contains(
-        "dev.alteration.branch.hollywood.tools.provided.regex.RegexTool"
+        "hollywood.tools.provided.regex.RegexTool"
       ),
       s"Registry should contain RegexTool. Got: $tools"
     )
@@ -243,7 +243,7 @@ class RegexToolSpec extends FunSuite {
 
     assert(result.isDefined, "Execution should return a result")
     result.foreach { v =>
-      val value = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+      val value = v.str
       assert(value.contains("Found 3 match(es)"), "Should find 3 numbers")
     }
   }

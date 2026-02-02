@@ -97,7 +97,7 @@ class HttpClientToolSpec extends HttpBinSuite {
     )
     assert(result.isDefined, "Execution should return a result")
     result.foreach { v =>
-      val value = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+      val value = v.str
       assert(
         value.contains(s"$httpBinUrl"),
         s"Result should contain $httpBinUrl"

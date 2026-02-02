@@ -100,7 +100,7 @@ class RestrictedExecutorSpec extends FunSuite {
 
     result match {
       case Some(v) => {
-        val msg = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
+        val msg = v.str
         assert(
           msg.contains("Policy violation") && msg.contains(
             "POST requests blocked"

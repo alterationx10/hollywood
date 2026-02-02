@@ -15,7 +15,7 @@ trait LlamaServerFixture extends FunSuite {
 
   /** The model to use for embeddings. Defaults to [[completionModel]]
     */
-  val embeddingModel: String = completionModel
+  lazy val embeddingModel: String = completionModel
 
   /** Whether tests should be ignored (default: true, requires manual enable) */
   override def munitIgnore: Boolean =

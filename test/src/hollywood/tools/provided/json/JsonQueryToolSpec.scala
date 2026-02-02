@@ -339,7 +339,7 @@ class JsonQueryToolSpec extends FunSuite {
     val tools = registry.getRegisteredToolNames
     assert(
       tools.contains(
-        "dev.alteration.branch.hollywood.tools.provided.json.JsonQueryTool"
+        "hollywood.tools.provided.json.JsonQueryTool"
       ),
       s"Registry should contain JsonQueryTool. Got: $tools"
     )
@@ -354,7 +354,7 @@ class JsonQueryToolSpec extends FunSuite {
       "operation" -> ujson.Str("get"),
       "path"      -> ujson.Str("metadata.total")
     )
-
+    
     val result = registry.execute(
       "hollywood.tools.provided.json.JsonQueryTool",
       args
@@ -362,8 +362,7 @@ class JsonQueryToolSpec extends FunSuite {
 
     assert(result.isDefined, "Execution should return a result")
     result.foreach { v =>
-      val value = ujson.write(v, indent = 0).stripPrefix("\"").stripSuffix("\"")
-      assertEquals(value, "3", "Should extract total value")
+      assertEquals(v.str, "3", "Should extract total value")
     }
   }
 

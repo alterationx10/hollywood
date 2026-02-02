@@ -32,8 +32,7 @@ class ToolExecutorSpec extends FunSuite {
     // Execute
     val result = executor.execute(jsonArgs)
 
-    // Verify - result should be Json
-    assertEquals(result, ujson.Str("hello-42-true"))
+    assertEquals(result.str, "hello-42-true")
   }
 
   test("ToolExecutor should handle URL strings without quotes") {

@@ -32,7 +32,6 @@ object EmbeddingClient {
   val defaultEmbeddingHandler: EmbeddingsRequest => EmbeddingsResponse = {
     req =>
       {
-        println(s"baseurl $baseUrl")
         val jsonData = write(req)
         val response = requests.post(
           s"$baseUrl/v1/embeddings",
