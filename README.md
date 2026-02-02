@@ -281,11 +281,18 @@ To run tests:
 ```scala
 class OneShotAgentSpec extends LlamaServerFixture {
   override def munitIgnore: Boolean = false
-  override val shouldStartLlamaServer: Boolean = false // Using external server
   // ... tests ...
 }
 ```
 
+Note: If you use a .env to load test env variables, note that mill runs tests sandboxed (not in project root).
+
+You can do something like:
+```shell
+VEIL_ENV_DIR=`pwd` ./mill --jobs 1 test
+```
+
+Extra Note: Running all the jobs will likely overwhelm a local llm, and you can control the parallelism with `--jobs 1`
 Test suites demonstrate:
 - Basic agent usage (`OneShotAgentSpec`)
 - RAG with document indexing (`RagAgentSpec`)

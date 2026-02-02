@@ -18,7 +18,7 @@ class RagAgentSpec extends LlamaServerFixture {
 
   test("RagAgent should answer questions using indexed documents") {
     val vectorStore     = new InMemoryVectorStore()
-    val embeddingClient = new EmbeddingClient(embeddingModel = "gpt-oss-20b")
+    val embeddingClient = new EmbeddingClient(embeddingModel = embeddingModel)
     val documentIndexer = new DocumentIndexer(embeddingClient, vectorStore)
 
     val ragAgent = new RagAgent(
