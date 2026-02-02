@@ -2,7 +2,7 @@ package hollywood.clients.completions
 
 import veil.Veil
 import ChatCompletionsRequest.given
-import upickle.default.{write, read}
+import upickle.default.{read, write}
 import ujson.Value
 
 class ChatCompletionClient(

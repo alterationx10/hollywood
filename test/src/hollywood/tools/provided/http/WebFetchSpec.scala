@@ -28,7 +28,7 @@ class WebFetchAgentSpec extends LlamaServerFixture {
 
   override val completionModel: String =
     Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
-  
+
   test("OneShotAgent should use WebFetch to fetch webpage content") {
     val toolRegistry = ToolRegistry().register[WebFetch]
 

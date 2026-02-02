@@ -1,12 +1,8 @@
 package hollywood
 
 import ujson.Value
-import hollywood.tools.schema.{ToolSchema, Schema}
-import hollywood.tools.{
-  AgentChatTool,
-  CallableTool,
-  ToolExecutor
-}
+import hollywood.tools.schema.{Schema, ToolSchema}
+import hollywood.tools.{AgentChatTool, CallableTool, ToolExecutor}
 
 import scala.util.*
 

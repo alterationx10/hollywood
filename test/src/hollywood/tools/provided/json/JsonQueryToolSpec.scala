@@ -354,7 +354,7 @@ class JsonQueryToolSpec extends FunSuite {
       "operation" -> ujson.Str("get"),
       "path"      -> ujson.Str("metadata.total")
     )
-    
+
     val result = registry.execute(
       "hollywood.tools.provided.json.JsonQueryTool",
       args

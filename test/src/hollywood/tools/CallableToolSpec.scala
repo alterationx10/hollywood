@@ -7,7 +7,7 @@ import upickle.default.ReadWriter
 import veil.Veil
 
 class CallableToolSpec extends LlamaServerFixture {
-  
+
   override val completionModel: String =
     Veil.get("HOLLYWOOD_COMPLETION_MODEL").getOrElse("gpt-oss-20b")
 

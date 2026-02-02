@@ -1,6 +1,6 @@
 package hollywood.tools.provided.searxng
 
-import upickle.default.{ReadWriter, macroRW}
+import upickle.default.{macroRW, ReadWriter}
 
 case class SearchResult(
     title: String,

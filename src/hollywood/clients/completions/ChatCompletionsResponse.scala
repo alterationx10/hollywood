@@ -1,6 +1,6 @@
 package hollywood.clients.completions
 
-import upickle.default.{ReadWriter, macroRW}
+import upickle.default.{macroRW, ReadWriter}
 
 case class ChatCompletionsResponse(
     id: String,

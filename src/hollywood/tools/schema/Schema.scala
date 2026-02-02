@@ -1,6 +1,6 @@
 package hollywood.tools.schema
 
-import upickle.default.{ReadWriter, macroRW, Reader, Writer}
+import upickle.default.{macroRW, Reader, ReadWriter, Writer}
 import ujson.Value
 
 /** JSON Schema ADT for tool parameters */

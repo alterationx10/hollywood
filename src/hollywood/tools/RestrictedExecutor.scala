@@ -1,7 +1,7 @@
 package hollywood.tools
 
 import ujson.Value
-import upickle.default.{Reader, read}
+import upickle.default.{read, Reader}
 
 import scala.util.{Failure, Success, Try}
 

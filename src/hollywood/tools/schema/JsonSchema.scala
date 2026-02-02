@@ -84,11 +84,13 @@ object JsonSchema {
     }
   }
 
-  private inline def deriveProductSchema[T](using p: Mirror.ProductOf[T]): Schema = {
-    val labels      = getLabels[p.MirroredElemLabels]
-    val types       = getSchemas[p.MirroredElemTypes]
-    val properties  = labels.zip(types).toMap
-    val required    = labels.toList // All fields required by default
+  private inline def deriveProductSchema[T](using
+      p: Mirror.ProductOf[T]
+  ): Schema = {
+    val labels     = getLabels[p.MirroredElemLabels]
+    val types      = getSchemas[p.MirroredElemTypes]
+    val properties = labels.zip(types).toMap
+    val required   = labels.toList // All fields required by default
     Schema.ObjectSchema(properties, required, None)
   }
 
@@ -108,18 +110,19 @@ object JsonSchema {
 
   private inline def getSchemaFor[T]: Schema = {
     inline erasedValue[T] match {
-      case _: String         => Schema.StringSchema(None)
-      case _: Int            => Schema.IntegerSchema(None)
-      case _: Long           => Schema.IntegerSchema(None)
-      case _: Double         => Schema.NumberSchema(None)
-      case _: Float          => Schema.NumberSchema(None)
-      case _: Boolean        => Schema.BooleanSchema(None)
-      case _: Option[t]      => getSchemaFor[t] // Unwrap Option
-      case _: List[t]        => Schema.ArraySchema(getSchemaFor[t], None)
-      case _: Seq[t]         => Schema.ArraySchema(getSchemaFor[t], None)
-      case _: Vector[t]      => Schema.ArraySchema(getSchemaFor[t], None)
-      case _: ujson.Value    => Schema.ObjectSchema(Map.empty, List.empty, None) // JSON value
-      case _                 =>
+      case _: String      => Schema.StringSchema(None)
+      case _: Int         => Schema.IntegerSchema(None)
+      case _: Long        => Schema.IntegerSchema(None)
+      case _: Double      => Schema.NumberSchema(None)
+      case _: Float       => Schema.NumberSchema(None)
+      case _: Boolean     => Schema.BooleanSchema(None)
+      case _: Option[t]   => getSchemaFor[t] // Unwrap Option
+      case _: List[t]     => Schema.ArraySchema(getSchemaFor[t], None)
+      case _: Seq[t]      => Schema.ArraySchema(getSchemaFor[t], None)
+      case _: Vector[t]   => Schema.ArraySchema(getSchemaFor[t], None)
+      case _: ujson.Value =>
+        Schema.ObjectSchema(Map.empty, List.empty, None) // JSON value
+      case _              =>
         // For other types, try to derive recursively
         summonInline[Mirror.Of[T]] match {
           case m: Mirror.Of[T] => deriveSchema[T](using m)

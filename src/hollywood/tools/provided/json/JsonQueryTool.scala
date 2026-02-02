@@ -135,7 +135,8 @@ case class JsonQueryTool(
             val filtered = arr.filter { item =>
               Try(item.obj.contains(f)).getOrElse(false)
             }
-            s"Filtered ${arr.size} items to ${filtered.size} items with field '$f':\n${ujson.write(Arr(filtered))}"
+            s"Filtered ${arr.size} items to ${filtered.size} items with field '$f':\n${ujson
+                .write(Arr(filtered))}"
           case None    =>
             throw new IllegalArgumentException(
               "Field parameter required for filter operation"
@@ -159,7 +160,8 @@ case class JsonQueryTool(
       case Some(arr) =>
         field match {
           case Some(f) =>
-            val mapped = arr.flatMap(item => Try(item.obj.get(f)).toOption.flatten)
+            val mapped =
+              arr.flatMap(item => Try(item.obj.get(f)).toOption.flatten)
             s"Extracted ${mapped.size} values for field '$f':\n${ujson.write(Arr(mapped))}"
           case None    =>
             throw new IllegalArgumentException(
@@ -247,11 +249,11 @@ case class JsonQueryTool(
   }
 
   private def getJsonType(json: Value): String = json match {
-    case Null      => "null"
-    case Bool(_)   => "boolean"
-    case Num(_)    => "number"
-    case Str(_)    => "string"
-    case Arr(_)    => "array"
-    case Obj(_)    => "object"
+    case Null    => "null"
+    case Bool(_) => "boolean"
+    case Num(_)  => "number"
+    case Str(_)  => "string"
+    case Arr(_)  => "array"
+    case Obj(_)  => "object"
   }
 }

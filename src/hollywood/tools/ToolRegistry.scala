@@ -2,11 +2,8 @@ package hollywood.tools
 
 import ujson.Value
 import upickle.default.{Reader, Writer}
-import hollywood.clients.completions.{
-  FunctionDefinition,
-  Tool
-}
-import hollywood.tools.schema.{ToolSchema, JsonSchema}
+import hollywood.clients.completions.{FunctionDefinition, Tool}
+import hollywood.tools.schema.{JsonSchema, ToolSchema}
 import hollywood.tools.{CallableTool, ToolExecutor}
 
 import scala.collection.mutable

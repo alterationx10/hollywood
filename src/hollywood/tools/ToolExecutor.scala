@@ -1,7 +1,7 @@
 package hollywood.tools
 
 import ujson.Value
-import upickle.default.{Reader, Writer, read, writeJs}
+import upickle.default.{read, writeJs, Reader, Writer}
 
 import scala.deriving.Mirror
 import scala.language.implicitConversions
@@ -29,8 +29,12 @@ object ToolExecutor {
           tool.execute() match {
             case scala.util.Success(result) =>
               result match {
-                case s: String => ujson.Str(s) // Handle String separately - seems to double quote otherwise
-                case _         => writeJs(result.asInstanceOf[ResultType[T]])(using writer)
+                case s: String =>
+                  ujson.Str(
+                    s
+                  ) // Handle String separately - seems to double quote otherwise
+                case _         =>
+                  writeJs(result.asInstanceOf[ResultType[T]])(using writer)
               }
             case scala.util.Failure(e)      =>
               ujson.Str(s"Error executing tool: ${e.getMessage}")

@@ -21,15 +21,17 @@ case class HttpClientTool(
 
   override def execute(): Try[String] = Try {
     // Parse headers if provided
-    val headerMap = headers.flatMap { headerJson =>
-      scala.util.Try(ujson.read(headerJson)).toOption match {
-        case Some(obj: ujson.Obj) =>
-          Some(obj.obj.collect {
-            case (key, ujson.Str(value)) => key -> value
-          }.toMap)
-        case _                    => None
+    val headerMap = headers
+      .flatMap { headerJson =>
+        scala.util.Try(ujson.read(headerJson)).toOption match {
+          case Some(obj: ujson.Obj) =>
+            Some(obj.obj.collect { case (key, ujson.Str(value)) =>
+              key -> value
+            }.toMap)
+          case _                    => None
+        }
       }
-    }.getOrElse(Map.empty[String, String])
+      .getOrElse(Map.empty[String, String])
 
     // Make HTTP request based on method
     val response = method.toUpperCase match {

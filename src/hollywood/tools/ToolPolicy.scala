@@ -59,7 +59,7 @@ object ToolPolicy {
       validator: T => Try[Unit],
       transformer: Value => Value = identity
   ): ToolPolicy[T] = new ToolPolicy[T] {
-    def validate(tool: T): Try[Unit]                 = validator(tool)
+    def validate(tool: T): Try[Unit]               = validator(tool)
     override def transformArgs(args: Value): Value = transformer(args)
   }
 }

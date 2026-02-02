@@ -1,9 +1,6 @@
 package hollywood
 
-import hollywood.clients.completions.{
-  ChatCompletionClient,
-  ChatMessage
-}
+import hollywood.clients.completions.{ChatCompletionClient, ChatMessage}
 import hollywood.tools.ToolRegistry
 
 /** A stateless agent that executes a single request-response cycle with fixed

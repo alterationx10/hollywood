@@ -108,7 +108,7 @@ class RestrictedExecutorSpec extends FunSuite {
           s"Should block POST with policy error: $msg"
         )
       }
-      case _ => fail("Expected policy violation error message")
+      case _       => fail("Expected policy violation error message")
     }
   }
 }

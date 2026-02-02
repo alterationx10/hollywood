@@ -1,6 +1,6 @@
 package hollywood.clients.completions
 
-import upickle.default.{ReadWriter, macroRW, Reader, Writer}
+import upickle.default.{macroRW, Reader, ReadWriter, Writer}
 import ujson.Value
 
 import scala.util.Try
@@ -18,7 +18,7 @@ case class ChatCompletionsRequest(
     response_format: Option[ResponseFormat] = None,
     seed: Option[Int] = None,
     service_tier: Option[String] = None,
-    stop: Option[Value] = None,       // Can be string or array of strings
+    stop: Option[Value] = None,        // Can be string or array of strings
     stream: Option[Boolean] = None,
     stream_options: Option[StreamOptions] = None,
     temperature: Option[Double] = None,

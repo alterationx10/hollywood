@@ -1,6 +1,6 @@
 package hollywood.clients.embeddings
 
-import upickle.default.{ReadWriter, macroRW}
+import upickle.default.{macroRW, ReadWriter}
 import ujson.Value
 
 case class EmbeddingsRequest(

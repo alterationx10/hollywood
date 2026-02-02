@@ -166,7 +166,6 @@ class FileSystemToolSpec extends FileFixtureSuite {
 
   files.test("FileSystemTool should execute via ToolRegistry") { testFile =>
 
-
     val registry = ToolRegistry()
     registry.register[FileSystemTool]
 
