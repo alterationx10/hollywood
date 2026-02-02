@@ -6,8 +6,6 @@ Built for local LLMs, tested primarily with llama-server and gpt-oss. Works with
 
 ## Setup
 
-Note: I'm porting this out of another library, and making sure all tests are working before publishing a version.
-
 Add to your `build.sbt` or Mill configuration:
 
 ```scala
@@ -23,7 +21,7 @@ Set environment variables for your LLM server:
 - `LLAMA_SERVER_EMBEDDING_URL` - Embeddings endpoint (falls back to `LLAMA_SERVER_URL`)
 - `SEARXNG_URL` - SearXNG search instance (default: `http://localhost:8888`)
 
-Start llama-server with embeddings support:
+Start llama-server with embeddings support (an example):
 
 ```bash
 llama-server -hf ggml-org/gpt-oss-20b-GGUF --ctx-size 8192 --jinja -ub 2048 -b 2048 --embeddings --pooling mean
@@ -177,9 +175,9 @@ import scala.util.{Try, Success, Failure}
 
 @Tool("Calculate the area of a rectangle")
 case class RectangleArea(
-  @Param("width of the rectangle") width: Double,
-  @Param("height of the rectangle") height: Double
-) extends CallableTool[Double] derives upickle.ReadWriter {
+                          @Param("width of the rectangle") width: Double,
+                          @Param("height of the rectangle") height: Double
+                        ) extends CallableTool[Double] derives upickle.ReadWriter {
   def execute(): Try[Double] = {
     if (width < 0 || height < 0) {
       Failure(new IllegalArgumentException("Width and height must be positive"))
@@ -262,6 +260,7 @@ val toolRegistry = ToolRegistry()
 ```
 
 Policy options:
+
 - `strict(path)` - Read-only, sandboxed
 - `default(path)` - Sandboxed with write access, 10MB file limit
 - `permissive(path)` - 100MB file limit, minimal restrictions
@@ -288,12 +287,14 @@ class OneShotAgentSpec extends LlamaServerFixture {
 Note: If you use a .env to load test env variables, note that mill runs tests sandboxed (not in project root).
 
 You can do something like:
+
 ```shell
 VEIL_ENV_DIR=`pwd` ./mill --jobs 1 test
 ```
 
 Extra Note: Running all the jobs will likely overwhelm a local llm, and you can control the parallelism with `--jobs 1`
 Test suites demonstrate:
+
 - Basic agent usage (`OneShotAgentSpec`)
 - RAG with document indexing (`RagAgentSpec`)
 - Conversation history (`ConversationalAgentSpec`)
